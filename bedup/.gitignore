@@ -1,0 +1,12 @@
+*.py[oc]
+/.coverage
+/.tox/
+/MANIFEST
+/bedup.egg-info/
+/bedup/platform/__pycache__/
+# These are created under ext_package in develop mode:
+/bedup/platform/_cffi__*.so
+# these can be removed manually:
+/bedup/_cffi__*.so
+/build/
+/dist/

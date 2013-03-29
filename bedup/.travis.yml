@@ -1,0 +1,28 @@
+language: python
+
+install:
+- uname -a
+- lsb_release -a
+- pypy --version
+- sudo touch /etc/suid-debug
+# Travis has a python3, but not the bin/python3 command
+- sudo apt-get -y install libffi-dev btrfs-tools python3-minimal user-mode-linux
+- which python3
+# Those exports make sure pip invocations through tox, virtualenv, etc
+# hit the cache. Travis is stupid to document manual addition of cli flags
+# instead of exporting those vars (or shipping a pip.ini).
+- export PIP_USE_MIRRORS=true
+- export PIP_DOWNLOAD_CACHE=~/.cache
+- export UML_MEM=192M
+- pip install cffi hg+https://bitbucket.org/g2p/tox#egg=tox
+
+# tox has some advantages over travis runners:
+# it tests installation from the sdist, which will
+# report things like missing header files.
+
+script:
+# Travis has PyPy 1.9 which is too old (want a PPA to upgrade).
+- time GETROOT="$PWD/tools/enter-uml" tox -e pypy \
+    || echo "Ignoring PyPy failures on Travis"
+- time GETROOT="$PWD/tools/enter-uml" tox -e py33,py27,py32
+
