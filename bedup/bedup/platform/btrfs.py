@@ -310,6 +310,13 @@ struct btrfs_dir_item {
     ...;
 };
 
+struct btrfs_ioctl_clone_range_args {
+	__s64 src_fd;
+	__u64 src_offset, src_length;
+	__u64 dest_offset;
+};
+
+
 uint64_t btrfs_stack_file_extent_generation(struct btrfs_file_extent_item *s);
 uint64_t btrfs_stack_inode_generation(struct btrfs_inode_item *s);
 uint64_t btrfs_stack_inode_size(struct btrfs_inode_item *s);
@@ -319,6 +326,7 @@ uint16_t btrfs_stack_root_ref_name_len(struct btrfs_root_ref *s);
 uint64_t btrfs_stack_root_ref_dirid(struct btrfs_root_ref *s);
 uint16_t btrfs_stack_dir_name_len(struct btrfs_dir_item *s);
 uint64_t btrfs_root_generation(struct btrfs_root_item *s);
+
 """)
 
 
